@@ -3,7 +3,7 @@ package io.github.togar2.pvp.feature.state;
 import io.github.togar2.pvp.feature.FeatureType;
 import io.github.togar2.pvp.feature.RegistrableFeature;
 import io.github.togar2.pvp.feature.config.DefinedFeature;
-import net.minestom.server.MinecraftServer;
+import net.kyori.adventure.key.Key;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.Player;
@@ -12,6 +12,7 @@ import net.minestom.server.event.player.PlayerMoveEvent;
 import net.minestom.server.event.player.PlayerTickEvent;
 import net.minestom.server.event.trait.EntityInstanceEvent;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.registry.RegistryKey;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,12 +50,13 @@ public class VanillaPlayerStateFeature implements PlayerStateFeature, Registrabl
 	@Override
 	public boolean isClimbing(LivingEntity entity) {
 		if (entity instanceof Player player && player.getGameMode() == GameMode.SPECTATOR) return false;
-		
-		var tag = MinecraftServer.getTagManager().getTag(net.minestom.server.gamedata.tags.Tag.BasicType.BLOCKS, "minecraft:climbable");
+
+
+		var tag = Block.staticRegistry().getTag(Key.key("climbable"));
 		assert tag != null;
 		
 		Block block = Objects.requireNonNull(entity.getInstance()).getBlock(entity.getPosition());
-		return tag.contains(block.key());
+		return tag.contains(RegistryKey.unsafeOf(block.key()));
 	}
 	
 	@Override

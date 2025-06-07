@@ -29,7 +29,7 @@ import net.minestom.server.potion.CustomPotionEffect;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 import net.minestom.server.potion.TimedPotion;
-import net.minestom.server.registry.ObjectSet;
+import net.minestom.server.registry.RegistryTag;
 import net.minestom.server.sound.SoundEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -210,7 +210,7 @@ public class VanillaFoodFeature implements FoodFeature, RegistrableFeature {
 					));
 				}
 			}
-			case RemoveEffects(ObjectSet<PotionEffect> potionEffects) -> entity.getActiveEffects().stream()
+			case RemoveEffects(RegistryTag<PotionEffect> potionEffects) -> entity.getActiveEffects().stream()
 					.map(TimedPotion::potion)
 					.map(Potion::effect)
 					.filter(potionEffects::contains)

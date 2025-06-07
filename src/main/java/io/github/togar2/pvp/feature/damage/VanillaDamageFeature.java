@@ -17,12 +17,10 @@ import io.github.togar2.pvp.feature.totem.TotemFeature;
 import io.github.togar2.pvp.feature.tracking.TrackingFeature;
 import io.github.togar2.pvp.utils.CombatVersion;
 import io.github.togar2.pvp.utils.EntityUtil;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.EquipmentSlot;
-import net.minestom.server.entity.LivingEntity;
-import net.minestom.server.entity.Player;
+import net.minestom.server.entity.*;
 import net.minestom.server.entity.damage.Damage;
 import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.event.EventDispatcher;
@@ -32,6 +30,7 @@ import net.minestom.server.event.trait.EntityInstanceEvent;
 import net.minestom.server.network.packet.server.play.DamageEventPacket;
 import net.minestom.server.network.packet.server.play.SoundEffectPacket;
 import net.minestom.server.potion.PotionEffect;
+import net.minestom.server.registry.RegistryKey;
 import net.minestom.server.sound.SoundEvent;
 import net.minestom.server.tag.Tag;
 
@@ -118,10 +117,11 @@ public class VanillaDamageFeature implements DamageFeature, RegistrableFeature {
 		}
 		
 		float amount = damage.getAmount();
-		
-		if (typeInfo.freeze() && Objects.requireNonNull(MinecraftServer.getTagManager().getTag(
-						net.minestom.server.gamedata.tags.Tag.BasicType.ENTITY_TYPES, "minecraft:freeze_hurts_extra_types"))
-				.contains(entity.getEntityType().key())) {
+
+
+
+		if (typeInfo.freeze() && Objects.requireNonNull(EntityType.staticRegistry().getTag(Key.key("freeze_hurts_extra_types"))
+				.contains(RegistryKey.unsafeOf(entity.getEntityType().key())))) {
 			amount *= 5.0F;
 		}
 		
