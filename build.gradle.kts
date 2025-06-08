@@ -41,8 +41,8 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            groupId = "dev.emortal.minestom"
-            artifactId = "game-sdk"
+            groupId = "io.github.togar2"
+            artifactId = "pvp"
 
             val commitHash = System.getenv("COMMIT_HASH_SHORT")
             val releaseVersion = System.getenv("RELEASE_VERSION")
